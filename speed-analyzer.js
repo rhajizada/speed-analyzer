@@ -1,5 +1,7 @@
 const Repeat = require('repeat');
-const repeatTime = 15;
+const repeatTime = 7;
+var i = 0;
+var TestResult = new Object();
 
 function SpeedTest() {
   const time = require('date-time'); // Instance of date-time class
@@ -17,11 +19,21 @@ function SpeedTest() {
     var globalTime = time().split(' '); // Current date and time
     var currentDate = globalTime[0]; // Date
     var currentTime = globalTime[1]; // Time
-    console.log(currentTime + " Download: " + download + " Mbp/s, Upload: " + upload + " Mpb/s, Ping: " + ping + " ms")
+    //console.log(i + " " + currentTime + " Download: " + download + " Mbp/s, Upload: " + upload + " Mpb/s, Ping: " + ping + " ms")
+    TestResult[i] = {
+      Date: currentDate,
+      Time: currentTime,
+      Download: download,
+      Upload: upload,
+      Ping: ping
+    };
+    console.dir(TestResult);
+    i++;
   });
   test.on('error', err => {
     console.error(err);
   });
+
 }
 
-Repeat(SpeedTest).every(repeatTime, 'sec').for(5, 'minutes').start.in(1, 'sec');
+Repeat(SpeedTest).every(repeatTime, 'sec').for(30, 'sec').start.in(1, 'sec');
